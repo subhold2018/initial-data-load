@@ -1,0 +1,197 @@
+{
+  "primaryData":{
+    "firstName":"Lin",
+    "lastName":"Cui",
+    "dob":"07/02/1988",
+    "email":"Lin.Cui@Colorado.EDU",
+    "maritalStatus":"Single",
+    "maritalStatusDate":"09/25/2011",
+    "homePhone":"3033596612",
+    "vaBenefits":"N"
+  },
+  "names":[
+    {
+      "firstName":"Lin",
+      "lastName":"Cui",
+      "recordActiveFlag":"A",
+      "logicalDeleteFlg":"N",
+      "effectiveStartDate":1317234600000,
+      "nameType": "Primary",
+      "isPrimary":"Y"
+    },
+    {
+      "firstName":"Lin",
+      "lastName":"Cui",
+      "recordActiveFlag":"A",
+      "logicalDeleteFlg":"N",
+      "effectiveStartDate":1317148200000,
+      "nameType": "Primary",
+      "isPrimary":"Y"
+    },
+    {
+      "firstName":"Lin",
+      "lastName":"Cui",
+      "recordActiveFlag":"A",
+      "logicalDeleteFlg":"N",
+      "effectiveStartDate":1316889000000,
+      "nameType": "Primary",
+      "isPrimary":"Y"
+    }
+  ],
+  "emails":[
+    {
+      "email":"Lin.Cui@Colorado.EDU",
+      "logicalDeleteFlg":"N",
+      "useType":"Boulder",
+      "isPrimary":"Y"
+    },
+    {
+      "email":"lincui72@yahoo.com",
+      "logicalDeleteFlg":"N",
+      "useType":"Pre CU Enrollment",
+      "isPrimary":"N"
+    }
+  ],
+  "phones":[
+    {
+      "phone":"3033596612",
+      "logicalDeleteFlg":"N",
+      "useType":"Home",
+      "isPrimary":"Y"
+    }
+  ],
+  "addresses":[
+    {
+      "city":"Dalian",
+      "country":"China",
+      "addressType":"Home",
+      "postalCode":"116011",
+      "state":"21",
+      "logicalDeleteFlg":"N",
+      "isPrimary":"Y",
+      "streetAddress":"81 Road 157k 1-201",
+      "streetAddress2":" ",
+      "streetAddress3":" ",
+      "streetAddress4":" ",
+      "asmCountry":"United States",
+      "recordActiveFlag":"A"
+    },
+    {
+      "city":"Dalian",
+      "country":"China",
+      "addressType":"Home",
+      "postalCode":"116011",
+      "state":"21",
+      "logicalDeleteFlg":"N",
+      "isPrimary":"N",
+      "streetAddress":"81 Road 157k 1-201",
+      "streetAddress2":" ",
+      "streetAddress3":" ",
+      "streetAddress4":" ",
+      "asmCountry":"United States",
+      "recordActiveFlag":"A"
+    },
+    {
+      "city":"Denver",
+      "country":"United States",
+      "addressType":"Home",
+      "postalCode":"80210",
+      "state":"CO",
+      "logicalDeleteFlg":"N",
+      "isPrimary":"N",
+      "streetAddress":"2225 Buchtel Blvd #1003",
+      "streetAddress2":" ",
+      "streetAddress3":"2225 Buchtel Blvd #1003",
+      "streetAddress4":" ",
+      "asmCountry":"United States",
+      "recordActiveFlag":"A"
+    },
+    {
+      "city":"Boulder",
+      "country":"United States",
+      "addressType":"Mailing",
+      "postalCode":"80303",
+      "state":"CO",
+      "logicalDeleteFlg":"N",
+      "isPrimary":"N",
+      "streetAddress":"2950 Bixby Ave #B112",
+      "streetAddress2":" ",
+      "streetAddress3":" ",
+      "streetAddress4":" ",
+      "asmCountry":"United States",
+      "recordActiveFlag":"A"
+    },
+    {
+      "city":"Denver",
+      "country":"United States",
+      "addressType":"Mailing",
+      "postalCode":"80210",
+      "state":"CO",
+      "logicalDeleteFlg":"N",
+      "isPrimary":"N",
+      "streetAddress":"2225 Buchtel Blvd #1003",
+      "streetAddress2":" ",
+      "streetAddress3":" ",
+      "streetAddress4":" ",
+      "asmCountry":"United States",
+      "recordActiveFlag":"A"
+    },
+    {
+      "city":"Boulder",
+      "country":"United States",
+      "addressType":"Billing",
+      "postalCode":"80303",
+      "state":"CO",
+      "logicalDeleteFlg":"N",
+      "isPrimary":"N",
+      "streetAddress":"2950 Bizby Ave #B112",
+      "streetAddress2":" ",
+      "streetAddress3":" ",
+      "streetAddress4":" ",
+      "asmCountry":"United States",
+      "recordActiveFlag":"A"
+    },
+    {
+      "city":"Boulder",
+      "country":"United States",
+      "addressType":"Campus",
+      "postalCode":"80303",
+      "state":"CO",
+      "logicalDeleteFlg":"N",
+      "isPrimary":"N",
+      "streetAddress":"2950 Bixby Ave #B112",
+      "streetAddress2":" ",
+      "streetAddress3":" ",
+      "streetAddress4":" ",
+      "asmCountry":"United States",
+      "recordActiveFlag":"A"
+    }
+  ],
+  "affiliations":[
+    {
+      "affiliationCode": "0011",
+      "institutionName" : "NEC",
+      "institutionId": "NEC-123",
+      "effectiveStartDate": "05/07/2008",
+      "institution": "NEC-COLLEGE"
+    },{
+      "affiliationCode": "0012",
+      "institutionName" : "TEC",
+      "institutionId": "TEC-123",
+      "effectiveStartDate": "05/07/2011"
+    }
+  ],
+  "identifications":[
+
+  ],
+  "source":[{
+    "source":"CS",
+    "sourceId":"101881930",
+    "createdDate":null,
+    "updatedDate":null,
+    "operation":"Upsert",
+    "guid":"50B7FCC7-723E-11e2-A23E-00505691002B"
+  }],
+  "realTimePubSub":"true",
+  "guid":"guid-1234"
+}

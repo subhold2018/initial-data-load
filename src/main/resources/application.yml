@@ -1,0 +1,9 @@
+server:
+  port: 8091
+
+spring:
+  kafka:
+    consumer:
+      group-id: general-publish-group
+    producer:
+      bootstrap-servers: 127.0.0.1:9092
