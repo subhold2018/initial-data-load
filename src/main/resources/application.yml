@@ -7,3 +7,8 @@ spring:
       group-id: general-publish-group
     producer:
       bootstrap-servers: 127.0.0.1:9092
+
+sql:
+  read-partyUid: SELECT ROW_ID,PARTY_UID as GUID from SIEBEL.S_PARTY where party_uid <>row_id and party_type_cd ='Person'
+  primary-data: SELECT FST_NAME,LAST_NAME,BIRTH_DT,EMAIL_ADDR,MID_NAME,HOME_PH_NUM,SEX_MF,SOC_SECURITY_NUM,DEATH_DT,JOB_TITLE,MARITAL_STAT_CD,PLACE_OF_BIRTH,PLACE_OF_DEATH,MARITAl_STAT_DT,PER_TITLE_SUFFIX,DEGREE from SIEBEL.S_CONTACT where row_id=?
+  source-data: Select CIF_EXT_SYST_ID,EXT_CUST_ID1 from SIEBEL.s_cif_con_map where con_id =?

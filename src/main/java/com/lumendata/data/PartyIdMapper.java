@@ -13,7 +13,8 @@ public class PartyIdMapper implements RowMapper<PartyUidData> {
     @Override
     public PartyUidData mapRow(ResultSet rs, int rowNum) throws SQLException {
         PartyUidData partyUidData=new PartyUidData();
-        partyUidData.setGuidId(rs.getString("guidId"));
+        partyUidData.setRowId(rs.getString("ROW_ID"));
+        partyUidData.setGuidId(rs.getString("GUID"));
         log.info("Reader-mapping partyId={}",partyUidData.getGuidId());
         return partyUidData;
     }
