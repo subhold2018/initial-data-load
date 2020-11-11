@@ -28,7 +28,7 @@ public class DataSourceConfig {
         dataSource.setDriverClassName(oracle.jdbc.driver.OracleDriver.class.getName());
         dataSource.setUrl("jdbc:oracle:thin:@qrac-scan.qa.cu.edu:6800/mdmstg");
         dataSource.setUsername("rajavarapus");
-        dataSource.setPassword("Test12345");
+        dataSource.setPassword("Srini_10293847");
         return dataSource;
     }
 }

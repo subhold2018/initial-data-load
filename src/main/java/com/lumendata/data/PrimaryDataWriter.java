@@ -21,6 +21,11 @@ public class PrimaryDataWriter {
             constituent.getSource().forEach(source -> {
                 ConstituentRecord constituentRecord=new ConstituentRecord();
                 constituentRecord.setPrimaryData(constituent.getPrimaryData());
+                constituentRecord.setAddresses(constituent.getAddresses());
+                constituentRecord.setEmails(constituent.getEmails());
+                constituentRecord.setAffiliations(constituent.getAffiliations());
+                constituentRecord.setNames(constituent.getNames());
+                constituentRecord.setIdentifications(constituent.getIdentifications());
                 constituentRecord.setSource(source);
                 PayloadMapper payloadMapper=new PayloadMapper();
                 payloadMapper.setTopicName("");
@@ -29,7 +34,7 @@ public class PrimaryDataWriter {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-                producerService.sendMessage(payloadMapper);
+              //  producerService.sendMessage(payloadMapper);
             });
         }
     }

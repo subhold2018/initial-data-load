@@ -4,6 +4,7 @@ import com.lumendata.model.PartyUidData;
 import com.lumendata.model.PrimaryData;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,10 +13,10 @@ public class PrimaryDataProcessor {
     private String readPrimaryData;
     private PreparedStatement preparedStatement;
 
-    public PrimaryDataProcessor(String sql,DataSource dataSource){
+    public PrimaryDataProcessor(String sql, Connection connection){
         this.readPrimaryData=sql;
         try {
-            preparedStatement=dataSource.getConnection()
+            preparedStatement=connection
                     .prepareStatement(readPrimaryData);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -25,14 +26,15 @@ public class PrimaryDataProcessor {
         try {
             preparedStatement.setString(1,partyUidData.getRowId());
            ResultSet primaryData=preparedStatement.executeQuery();
-           return getPrimaryData(primaryData);
+           return getPrimaryData(primaryData,partyUidData);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return null;
     }
 
-    private PrimaryData getPrimaryData(ResultSet resultSet) throws SQLException {
+    private PrimaryData getPrimaryData(ResultSet resultSet,PartyUidData partyUidData)
+            throws SQLException {
         PrimaryData primaryData=new PrimaryData();
         while (resultSet.next()){
             primaryData.setFirstName(resultSet.getString("FST_NAME"));
@@ -46,6 +48,13 @@ public class PrimaryDataProcessor {
             primaryData.setSsn(resultSet.getString("SOC_SECURITY_NUM"));
             primaryData.setGender(resultSet.getString("SEX_MF"));
             primaryData.setPlaceOfBirth(resultSet.getString("PLACE_OF_BIRTH"));
+            //is primary-flag attributes
+            partyUidData.setPrimaryEmailId(resultSet.getString("PR_EMAIL_ADDR_ID"));
+            partyUidData.setPrimaryAffId(resultSet.getString("PR_AFFL_ID"));
+            partyUidData.setPrimaryNameId(resultSet.getString("PR_NAME_ID"));
+            partyUidData.setPrimaryPhoneId(resultSet.getString("PR_ALT_PH_NUM_ID"));
+            partyUidData.setPrimaryIdentityId(resultSet.getString("PR_IDENTITY_ID"));
+
             return primaryData;
         }
         return null;

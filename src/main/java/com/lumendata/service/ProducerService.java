@@ -8,7 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 public class ProducerService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProducerService.class);

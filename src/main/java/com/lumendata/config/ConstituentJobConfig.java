@@ -1,9 +1,6 @@
 package com.lumendata.config;
 
-import com.lumendata.data.PartyIdMapper;
-import com.lumendata.data.PrimaryDataProcessor;
-import com.lumendata.data.PrimaryDataWriter;
-import com.lumendata.data.SourceDataProcessor;
+import com.lumendata.data.*;
 import com.lumendata.listeners.JobCompletionNotificationListener;
 import com.lumendata.model.Constituent;
 import com.lumendata.model.PartyUidData;
@@ -26,6 +23,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 @Configuration
@@ -50,6 +49,25 @@ public class ConstituentJobConfig {
 
     @Value("${sql.source-data}")
     private String sourceDataSql;
+
+    @Value("${sql.email-data}")
+    private String emailDataSql;
+
+    @Value("${sql.phone-data}")
+    private String phoneDataSql;
+
+    @Value("${sql.address-data}")
+    private String addressDataSql;
+
+    @Value("${sql.nid-data}")
+    private String identityDataSql;
+
+    @Value("${sql.affiliation-data}")
+    private String affiliationDataSql;
+
+    @Value("${sql.name-data}")
+    private String nameDataSql;
+
 
     @Autowired
     @Qualifier(value = "dataSource")
@@ -93,6 +111,12 @@ public class ConstituentJobConfig {
                 Constituent constituent=new Constituent();
                 constituent.setPrimaryData(primaryDataProcessor().readPrimaryData(item));
                 constituent.setSource(sourceDataProcessor().readSourceData(item));
+                constituent.setEmails(emailDataProcessor().readEmailData(item));
+                constituent.setPhones(phoneDataProcessor().readPhoneData(item));
+                constituent.setAddresses(addressDataProcessor().readAddressData(item));
+                constituent.setIdentifications(identityDataProcessor().reaIdentityData(item));
+                constituent.setAffiliations(affiliationDataProcessor().readAffiliationData(item));
+                constituent.setNames(nameDataProcessor().readNameData(item));
                 return constituent;
             }
         };
@@ -108,20 +132,58 @@ public class ConstituentJobConfig {
     }
     @Bean
     public PrimaryDataProcessor primaryDataProcessor(){
-        return new PrimaryDataProcessor(primaryDataSql,dataSource);
+        return new PrimaryDataProcessor(primaryDataSql,connection());
     }
     @Bean
     public SourceDataProcessor sourceDataProcessor(){
         return new SourceDataProcessor(sourceDataSql,dataSource);
     }
+
     @Bean
-    public PrimaryDataWriter primaryDataWriter(){
-        return new PrimaryDataWriter(producerService());
+    public Connection connection(){
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
     @Bean
+    public EmailDataProcessor emailDataProcessor(){
+        return new EmailDataProcessor(emailDataSql,dataSource);
+    }
+    @Bean
+    public PhoneDataProcessor phoneDataProcessor(){
+        return new PhoneDataProcessor(phoneDataSql,dataSource);
+    }
+    @Bean
+    public PrimaryDataWriter primaryDataWriter(){
+        return new PrimaryDataWriter(null);
+    }
+    @Bean
+    public AddressDataProcessor addressDataProcessor(){
+        return new AddressDataProcessor(addressDataSql,dataSource);
+    }
+
+    @Bean
+    public IdentityDataProcessor identityDataProcessor(){
+        return new IdentityDataProcessor(identityDataSql,dataSource);
+    }
+
+    @Bean
+    public AffiliationDataProcessor affiliationDataProcessor(){
+        return new AffiliationDataProcessor(affiliationDataSql,dataSource);
+    }
+
+    @Bean
+    public NameDataProcessor nameDataProcessor(){
+        return new NameDataProcessor(nameDataSql,dataSource);
+    }
+
+  /*  @Bean
     public ProducerService producerService() {
         return new ProducerService(kafkaTemplate);
-    }
+    }*/
 
 }

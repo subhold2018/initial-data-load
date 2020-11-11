@@ -17,4 +17,5 @@ public class PrimaryData {
     private String deathDate;
     private String ssn;
     private String placeOfBirth;
+
 }
