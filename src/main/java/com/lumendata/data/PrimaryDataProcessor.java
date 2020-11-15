@@ -54,6 +54,7 @@ public class PrimaryDataProcessor {
             partyUidData.setPrimaryNameId(resultSet.getString("PR_NAME_ID"));
             partyUidData.setPrimaryPhoneId(resultSet.getString("PR_ALT_PH_NUM_ID"));
             partyUidData.setPrimaryIdentityId(resultSet.getString("PR_IDENTITY_ID"));
+            partyUidData.setPrimaryAddressId(resultSet.getString("PR_PER_ADDR_ID"));
 
             return primaryData;
         }

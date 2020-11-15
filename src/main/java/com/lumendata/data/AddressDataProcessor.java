@@ -26,18 +26,23 @@ public class AddressDataProcessor {
     public List<Address> readAddressData(PartyUidData partyUidData){
         try {
             preparedStatement.setString(1,partyUidData.getRowId());
-            ResultSet emilData=preparedStatement.executeQuery();
-            return getAddressData(emilData);
+            ResultSet addressData=preparedStatement.executeQuery();
+            return getAddressData(addressData,partyUidData.getPrimaryAddressId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return null;
     }
 
-    private List<Address> getAddressData(ResultSet resultSet) throws SQLException {
+    private List<Address> getAddressData(ResultSet resultSet,String primaryId) throws SQLException {
         List<Address> addresses=new ArrayList<>();
         while (resultSet.next()){
             Address address=new Address();
+            if(primaryId.equalsIgnoreCase(resultSet.getString("ROW_ID"))) {
+                address.setIsPrimary("Y");
+            }else{
+                address.setIsPrimary("N");
+            }
             address.setState(resultSet.getString("STATE"));
             address.setCity(resultSet.getString("CITY"));
             address.setCountry(resultSet.getString("COUNTRY"));

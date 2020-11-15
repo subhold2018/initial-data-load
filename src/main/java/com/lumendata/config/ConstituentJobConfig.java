@@ -23,9 +23,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Configuration
 @Slf4j
@@ -72,6 +75,7 @@ public class ConstituentJobConfig {
     @Autowired
     @Qualifier(value = "dataSource")
     DataSource dataSource;
+    AtomicInteger count=new AtomicInteger();
 
     @Bean
     public Job constituentRecordProcessorJob(
@@ -86,7 +90,7 @@ public class ConstituentJobConfig {
 
     @Bean
     public Step primaryDataProcessingStep() {
-        return stepBuilderFactory.get("primaryDataProcessingStep").<PartyUidData, Constituent> chunk(1)
+        return stepBuilderFactory.get("primaryDataProcessingStep").<PartyUidData, Constituent> chunk(5)
                 .reader(getReader()).processor(processData())
                 .writer(writeData()).build();
     }
@@ -96,7 +100,10 @@ public class ConstituentJobConfig {
             @Override
             public void write(List<? extends Constituent> items) throws Exception {
                 items.forEach(constituent->{
-                    primaryDataWriter().writeData(constituent);
+                   Map<String,List<String>> partyUids= primaryDataWriter()
+                           .writeData(constituent);
+                   csvDataWriter().writeToCsvFile(partyUids,true);
+                   log.info("Record-count"+(count));
                 });
             }
         };
@@ -109,6 +116,7 @@ public class ConstituentJobConfig {
             public Constituent process(PartyUidData item) throws Exception {
                 log.info("process-PartyId={}",item.getGuidId());
                 Constituent constituent=new Constituent();
+                constituent.setGuid(item.getGuidId());
                 constituent.setPrimaryData(primaryDataProcessor().readPrimaryData(item));
                 constituent.setSource(sourceDataProcessor().readSourceData(item));
                 constituent.setEmails(emailDataProcessor().readEmailData(item));
@@ -169,6 +177,16 @@ public class ConstituentJobConfig {
     @Bean
     public IdentityDataProcessor identityDataProcessor(){
         return new IdentityDataProcessor(identityDataSql,dataSource);
+    }
+
+    @Bean
+    public CsvDataWriter csvDataWriter(){
+        try {
+            return new CsvDataWriter("F:\\lumen-data-repo\\initial-data-load\\guids.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Bean

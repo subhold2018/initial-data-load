@@ -8,6 +8,8 @@ import com.lumendata.model.PayloadMapper;
 import com.lumendata.service.ProducerService;
 import org.springframework.util.CollectionUtils;
 
+import java.util.*;
+
 public class PrimaryDataWriter {
 
     ProducerService producerService;
@@ -16,10 +18,20 @@ public class PrimaryDataWriter {
        this.producerService=producerService;
     }
 
-    public void writeData(Constituent constituent){
+    public Map<String, List<String>> writeData(Constituent constituent){
+        Map<String, List<String>> partyUids=new HashMap<>();
+        String parentGuid=constituent.getGuid();
         if(!CollectionUtils.isEmpty(constituent.getSource())){
             constituent.getSource().forEach(source -> {
                 ConstituentRecord constituentRecord=new ConstituentRecord();
+                if(null==constituent.getGuid()){
+                    constituentRecord.setGuid(UUID.randomUUID().toString());
+                    partyUids.get(parentGuid).add(constituentRecord.getGuid());
+                }else{
+                    constituentRecord.setGuid(constituent.getGuid());
+                    partyUids.put(constituent.getGuid(),new ArrayList<>());
+                    constituent.setGuid(null);
+                }
                 constituentRecord.setPrimaryData(constituent.getPrimaryData());
                 constituentRecord.setAddresses(constituent.getAddresses());
                 constituentRecord.setEmails(constituent.getEmails());
@@ -37,5 +49,6 @@ public class PrimaryDataWriter {
               //  producerService.sendMessage(payloadMapper);
             });
         }
+        return partyUids;
     }
 }

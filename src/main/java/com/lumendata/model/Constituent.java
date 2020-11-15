@@ -13,5 +13,6 @@ public class Constituent {
     private List<Address> addresses;
     private List<Identification> identifications;
     private List<Affiliation> affiliations;
-    List<Name> names;
+    private List<Name> names;
+    private String guid;
 }
