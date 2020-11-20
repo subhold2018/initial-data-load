@@ -1,12 +1,12 @@
 server:
-  port: 8091
+  port: 8104
 
 spring:
   kafka:
     consumer:
       group-id: general-publish-group
     producer:
-      bootstrap-servers: 127.0.0.1:9092
+      bootstrap-servers: 127.0.0.1:9092,127.0.0.1:9093,127.0.0.1:9094
 
 sql:
   read-partyUid: SELECT ROW_ID,PARTY_UID as GUID from SIEBEL.S_PARTY where party_uid <>row_id and party_type_cd ='Person'
