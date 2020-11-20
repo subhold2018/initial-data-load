@@ -13,6 +13,6 @@ public class ConstituentRecord {
     private List<Address> addresses;
     private List<Affiliation> affiliations;
     private List<Identification> identifications;
-    private Source source;
+    private List<Source> source;
     private String guid;
 }

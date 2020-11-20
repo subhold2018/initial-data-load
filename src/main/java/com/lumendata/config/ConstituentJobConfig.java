@@ -3,6 +3,7 @@ package com.lumendata.config;
 import com.lumendata.data.*;
 import com.lumendata.listeners.JobCompletionNotificationListener;
 import com.lumendata.model.Constituent;
+import com.lumendata.model.ConstituentRecord;
 import com.lumendata.model.PartyUidData;
 import com.lumendata.model.PrimaryData;
 import com.lumendata.service.ProducerService;
@@ -90,19 +91,19 @@ public class ConstituentJobConfig {
 
     @Bean
     public Step primaryDataProcessingStep() {
-        return stepBuilderFactory.get("primaryDataProcessingStep").<PartyUidData, Constituent> chunk(5)
+        return stepBuilderFactory.get("primaryDataProcessingStep").<PartyUidData, ConstituentRecord> chunk(2)
                 .reader(getReader()).processor(processData())
                 .writer(writeData()).build();
     }
 
-    public ItemWriter<? super Constituent> writeData() {
-        return new ItemWriter<Constituent>() {
+    public ItemWriter<? super ConstituentRecord> writeData() {
+        return new ItemWriter<ConstituentRecord>() {
             @Override
-            public void write(List<? extends Constituent> items) throws Exception {
+            public void write(List<? extends ConstituentRecord> items) throws Exception {
                 items.forEach(constituent->{
                    Map<String,List<String>> partyUids= primaryDataWriter()
                            .writeData(constituent);
-                   csvDataWriter().writeToCsvFile(partyUids,true);
+                   //csvDataWriter().writeToCsvFile(partyUids,true);
                    log.info("Record-count"+(count));
                 });
             }
@@ -110,12 +111,12 @@ public class ConstituentJobConfig {
     }
 
     @Bean
-    public ItemProcessor<PartyUidData, Constituent> processData() {
-        return new ItemProcessor<PartyUidData, Constituent>() {
+    public ItemProcessor<PartyUidData, ConstituentRecord> processData() {
+        return new ItemProcessor<PartyUidData, ConstituentRecord>() {
             @Override
-            public Constituent process(PartyUidData item) throws Exception {
+            public ConstituentRecord process(PartyUidData item) throws Exception {
                 log.info("process-PartyId={}",item.getGuidId());
-                Constituent constituent=new Constituent();
+                ConstituentRecord constituent=new ConstituentRecord();
                 constituent.setGuid(item.getGuidId());
                 constituent.setPrimaryData(primaryDataProcessor().readPrimaryData(item));
                 constituent.setSource(sourceDataProcessor().readSourceData(item));
@@ -167,7 +168,7 @@ public class ConstituentJobConfig {
     }
     @Bean
     public PrimaryDataWriter primaryDataWriter(){
-        return new PrimaryDataWriter(null);
+        return new PrimaryDataWriter(producerService());
     }
     @Bean
     public AddressDataProcessor addressDataProcessor(){
@@ -179,7 +180,7 @@ public class ConstituentJobConfig {
         return new IdentityDataProcessor(identityDataSql,dataSource);
     }
 
-    @Bean
+    /*@Bean
     public CsvDataWriter csvDataWriter(){
         try {
             return new CsvDataWriter("F:\\lumen-data-repo\\initial-data-load\\guids.csv");
@@ -187,7 +188,7 @@ public class ConstituentJobConfig {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     @Bean
     public AffiliationDataProcessor affiliationDataProcessor(){
@@ -199,9 +200,9 @@ public class ConstituentJobConfig {
         return new NameDataProcessor(nameDataSql,dataSource);
     }
 
-  /*  @Bean
+   @Bean
     public ProducerService producerService() {
         return new ProducerService(kafkaTemplate);
-    }*/
+    }
 
 }

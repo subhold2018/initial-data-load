@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class Constituent {
     private PrimaryData primaryData;
-    private List<Source> source;
+    private Source source;
     private List<Email> emails;
     private List<Phone> phones;
     private List<Address> addresses;
